@@ -1,0 +1,11 @@
+.form{
+    margin-top: 1rem;
+    > * {
+        margin-bottom: $m-size;
+    }
+}
+
+.error{
+    font-size: 1.4rem;
+    color: red;
+}

@@ -1,0 +1,34 @@
+button {
+    cursor: pointer;
+    outline:none;
+}
+
+ button:disabled {
+     cursor: default;
+ }
+
+ .muted-text {
+     color: gray;
+ }
+
+ .btn-primary{
+     padding: 1rem;
+     width: 90%;
+     background-color: $blue;
+
+     color: white;
+     text-transform: uppercase;
+     border: none;
+
+     &:hover{
+         background-color: $dark-blue;
+     }
+ }
+
+ .simple-text-button{
+     border: none;
+     outline: none;
+     color: $blue;
+     background-color:transparent;
+     text-transform: capitalize;
+ }

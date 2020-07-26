@@ -1,0 +1,26 @@
+.box-layout{
+    background-image:linear-gradient(rgba(104, 95, 95, 0.678),rgba(88, 80, 80, 0.795)),url(../img/cover_page.jpg);
+    background-size: cover;
+    height: 100vh;
+    background-position: center;
+
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__box{
+     max-width:30rem;
+     max-height: 50rem;
+     background: rgba(224, 220, 220, 0.7);
+     text-align: center;
+     padding: 2rem;
+
+     display: flex;
+     flex-direction: column;
+     justify-items: center;
+     align-items: center;
+    }
+}
+
+

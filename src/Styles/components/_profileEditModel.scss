@@ -1,0 +1,33 @@
+.profile-edit-form{
+    height: 10rem;
+    width: 30rem;
+}
+.profile-input{
+    width: 100%;
+    height: 50%;
+    text-align: center;
+}
+.profile-input-button-box{
+    display: flex;
+    justify-items: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    height: 50%;
+    background-color: $dark-grey;
+
+    button:not(:last-child) {
+        margin-left: 19.7rem;
+    }
+}
+
+input[type='text']{font-size: 1.7rem}
+
+.profile-input-button{
+    border: none;
+    outline: none;
+    color: $white;
+    background-color: $blue;
+    margin-right: .5rem;
+    padding: .5rem;
+    margin-bottom: .5rem;
+}

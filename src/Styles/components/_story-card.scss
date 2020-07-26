@@ -1,0 +1,87 @@
+.story-card {
+  display: grid;
+  grid-template-columns: [title]16rem [title-end edit]3rem [edit-end delete]3rem;
+  grid-template-rows: [title]max-content [title-end body]min-content [body-end by]min-content;
+  box-shadow: 0rem 0rem 1rem $silver;
+  padding: 1.1rem;
+  position: relative;
+  background-color: $Chantilly;
+  margin-bottom: 1rem;
+  > * {
+    margin-left: 1rem;
+  }
+@media (max-width:$middle-breakpoint) {
+  grid-template-columns: [title]minmax(16rem,1fr) [title-end edit]3rem [edit-end delete]3rem;
+}
+  &__title {
+    grid-column: 1 / title-end;
+    font-size: 2rem;
+    font-weight: 500;
+    // line-height: 1.8rem;
+  }
+  &__body {
+    margin-top: 1rem;
+    grid-row: body/body-end;
+    grid-column: 1/-1;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: justify;
+    padding: .5rem 1.0rem 2.5rem;
+  }
+  &__by {
+    grid-row: by/-1;
+    grid-column: 1/-1;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: $blue;
+
+    justify-self: end;
+    word-spacing: 1rem;
+  }
+
+  transition: background .3s ease-in-out;
+  &:hover {
+      background: lighten($Chantilly, 10%);
+  }
+  .icon {
+    &__edit {
+      display: grid;
+      grid-row: title/title-end;
+      grid-column: edit/edit-end;
+      fill: $blue;
+      height: 2rem;
+      width: 2rem;
+      margin-left: 1rem;
+      position: absolute;
+      margin-top: 0.6rem;
+      margin-right: 2rem;
+    }
+    &__delete {
+      display: grid;
+      grid-row: title/title-end;
+      grid-column: delete/delete-end;
+      align-self: start;
+      fill: $mandy;
+      height: 2rem;
+      width: 2rem;
+      margin-left: 1rem;
+      position: absolute;
+      margin-top: 0.6rem;
+    }
+  }
+}
+
+.icon-button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  align-self: self-start;
+  margin-left: -0.4rem;
+}
+.written-by {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  margin-left: 1rem;
+  word-spacing: 0rem;
+}
