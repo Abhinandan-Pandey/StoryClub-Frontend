@@ -69,32 +69,32 @@ const fetchUserStoryStart = (state, action) => {
 };
 const updatedStory = (state, action) => {
   // return updateObject(state, { updatedStory: action.updatedStory });
-  const stories=state.stories.map((story)=>{
-    if(action.updatedStory.userStoryId===story.userStoryId){
-      return action.updatedStory
-    }else{
+  const stories = state.stories.map((story) => {
+    if (action.updatedStory._id === story._id) {
+      return action.updatedStory;
+    } else {
       return story;
     }
-  })
-  return updateObject(state,{stories})
+  });
+  return updateObject(state, { stories });
 };
 const addedStory = (state, action) => {
   // return updateObject(state, { addedStory: action.addedPost });
-  const stories=state.stories.concat(action.addedPost)
-  return updateObject(state,{stories})
+  const stories = state.stories.concat(action.addedPost);
+  return updateObject(state, { stories });
 };
 const deletedStory = (state, action) => {
   // return updateObject(state, { deletedStoryId: action.storyId });
-  const stories= state.stories.filter((story)=> story.userStoryId!==action.storyId)
-  return updateObject(state,{stories})
+  const stories = state.stories.filter((story) => story._id !== action.storyId);
+  return updateObject(state, { stories });
 };
 const updatedProfile = (state, action) => {
   // return updateObject(state, { updatedProfile: action.updatedProfile });
-  const userData={
+  const userData = {
     ...state.userData,
     ...action.updatedProfile,
-  }
-  return updateObject(state,{userData})
+  };
+  return updateObject(state, { userData });
 };
 const reducer = (state = intialState, action) => {
   switch (action.type) {

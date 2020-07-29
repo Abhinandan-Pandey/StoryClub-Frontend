@@ -8,13 +8,13 @@ export const fetchingStoryStart = () => {
 };
 
 export const fetchingStorySuccess = (stories) => {
-  let storiesArray = Object.keys(stories).map((key) => {
-    return { ...stories[key], userStoryId: key };
-  });
-
+  // let storiesArray = Object.keys(stories).map((key) => {
+  //   return { ...stories[key], userStoryId: key };
+  // });
+  // let storiesArray
   return {
     type: actionTypes.FETCHING_STORY_SUCCESS,
-    stories: storiesArray,
+    stories: stories.stories,
   };
 };
 
@@ -29,8 +29,13 @@ export const fetchingStory = (token) => {
   return (dispatch) => {
     dispatch(fetchingStoryStart());
     axios
-      .get("/stories.json?auth=" + token)
+      .get("/stories", {
+        headers: {
+          authorization: "Bearer " + token,
+        },
+      })
       .then((res) => {
+        // console.log(res.data);
         dispatch(fetchingStorySuccess(res.data));
       })
       .catch((err) => {
@@ -40,21 +45,22 @@ export const fetchingStory = (token) => {
 };
 
 export const fetchingUserStorySucced = (stories) => {
-  let userStoriesArray = Object.keys(stories).map((key) => {
-    return { ...stories[key], userStoryId: key };
-  });
+  // let userStoriesArray = Object.keys(stories).map((key) => {
+  //   return { ...stories[key], userStoryId: key };
+  // });
+  let userStoriesArray = stories;
   return {
     type: actionTypes.FETCH_USER_STORY_SUCCESS,
     userStory: userStoriesArray,
   };
 };
-export const fetchingUserDataSucced = (stories) => {
-  let userDataArray = Object.keys(stories).map((key) => {
-    return { ...stories[key], userDataId: key };
-  }); 
+export const fetchingUserDataSucced = (userData) => {
+  // let userDataArray = Object.keys(stories).map((key) => {
+  //   return { ...stories[key], userDataId: key };
+  // });
   return {
     type: actionTypes.FETCH_USER_DATA_SUCCESS,
-    userData: userDataArray[0],
+    userData: userData,
   };
 };
 export const fetchingUserStoryStart = () => {
@@ -83,50 +89,57 @@ export const fetchUserProfile = (userId, token) => {
   return (dispatch) => {
     dispatch(fetchingUserStoryStart());
     dispatch(fetchingUserDataStart());
-    const queryParams =
-      "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
+    // const queryParams =
+    //   "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
     axios
-      .get("/stories.json" + queryParams)
+      .get("users/" + userId, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((response) => {
-        dispatch(fetchingUserStorySucced(response.data));
+        // console.log(response.data);
+        // console.log(response.data.stories);
+        dispatch(fetchingUserStorySucced(response.data.stories));
+        dispatch(fetchingUserDataSucced(response.data.user));
       })
       .catch((error) => {
         console.log(error);
         dispatch(fetchingUserStoryFail(error));
       });
-    axios
-      .get("/users.json" + queryParams)
-      .then((response) => {
-        dispatch(fetchingUserDataSucced(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(fetchingUserDataFail(error));
-      });
+    // axios
+    //   .get("/users.json" + queryParams)
+    //   .then((response) => {
+    //     dispatch(fetchingUserDataSucced(response.data));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     dispatch(fetchingUserDataFail(error));
+    //   });
   };
 };
 
-export const deletedStory=(storyId)=>{
-  return{
-      type:actionTypes.DELETED_STORY,
-      storyId,
-  }
-}
-export const updatedStory=(story)=>{
-  return{
-      type:actionTypes.UPDATED_STORY,
-      updatedStory:story,
-  }
-}
-export const addedStory=(addedPost)=>{
-  return{
-      type:actionTypes.ADDED_STORY,
-      addedPost:addedPost,
-  }
-}
-export const updatedProfile=(updatedProfile)=>{
-  return{
-      type:actionTypes.UPDATED_PROFILE,
-      updatedProfile,
-  }
-}
+export const deletedStory = (storyId) => {
+  return {
+    type: actionTypes.DELETED_STORY,
+    storyId,
+  };
+};
+export const updatedStory = (story) => {
+  return {
+    type: actionTypes.UPDATED_STORY,
+    updatedStory: story,
+  };
+};
+export const addedStory = (addedPost) => {
+  return {
+    type: actionTypes.ADDED_STORY,
+    addedPost: addedPost,
+  };
+};
+export const updatedProfile = (updatedProfile) => {
+  return {
+    type: actionTypes.UPDATED_PROFILE,
+    updatedProfile,
+  };
+};

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import Textarea from 'react-textarea-autosize';
-
+import Textarea from "react-textarea-autosize";
 
 import * as actions from "../../Store/actions/index";
 import Spinner from "../../Utilities/spinner";
@@ -47,7 +46,7 @@ function StoryModal(props) {
       if (props.type === "newPost") {
         props.postStory(postStory, props.token);
       } else if (props.type === "editPost") {
-        props.editPost(postStory, props.card.userStoryId, props.token);
+        props.editPost(postStory, props.card._id, props.token);
       }
     } else {
       setValidationMessage(
@@ -56,86 +55,91 @@ function StoryModal(props) {
     }
   };
   const deletePostHandler = () => {
-    props.deletePost(props.card.userStoryId, props.token);
+    props.deletePost(props.card._id, props.token);
   };
-  let deletePostButton = 
-    props.userId === props.card.userId ? (<><button
-      className="delete-post" 
-      onClick={deletePostHandler}
-    >
-      delete
-    </button></>): (<><button
-      className="delete-post" 
-      onClick={deletePostHandler}
-      style={{ visibility: "hidden" }}
-    >
-      delete
-    </button></>)
-  let checkBoxButton=props.userId === props.card.userId ? (
-    <>
-      <label>Keep private &nbsp;</label>
-      <input
-        type="checkbox"
-        checked={story["privacy"]}
-        onChange={(e) => checkboxHandler(e)}
-      />
-    </>
-  ) : (
-    <>
-      <label style={{ visibility: "hidden" }}>
-        Keep private &nbsp;
-      </label>
-      <input
-        style={{ visibility: "hidden" }}
-        type="checkbox"
-        checked={story["privacy"]}
-        onChange={(e) => checkboxHandler(e)}
-      />
-    </>
-  ) 
-  let postButton=props.userId === props.card.userId ? (
-    <>
-      <button
-        className="submit-post"
-        onClick={postStoryHandler}
-      >
-        post
-      </button>
-    </>
-  ) : (
-    <>
-      <button
-        className="submit-post"
-        style={{ visibility: "hidden" }}
-        onClick={postStoryHandler}
-      >
-        post
-      </button>
-    </>
-  )
-  
+  let deletePostButton =
+    props.userId === props.card.userId ? (
+      <>
+        <button className="delete-post" onClick={deletePostHandler}>
+          delete
+        </button>
+      </>
+    ) : (
+      <>
+        <button
+          className="delete-post"
+          onClick={deletePostHandler}
+          style={{ visibility: "hidden" }}
+        >
+          delete
+        </button>
+      </>
+    );
+  let checkBoxButton =
+    props.userId === props.card.userId ? (
+      <>
+        <label>Keep private &nbsp;</label>
+        <input
+          type="checkbox"
+          checked={story["privacy"]}
+          onChange={(e) => checkboxHandler(e)}
+        />
+      </>
+    ) : (
+      <>
+        <label style={{ visibility: "hidden" }}>Keep private &nbsp;</label>
+        <input
+          style={{ visibility: "hidden" }}
+          type="checkbox"
+          checked={story["privacy"]}
+          onChange={(e) => checkboxHandler(e)}
+        />
+      </>
+    );
+  let postButton =
+    props.userId === props.card.userId ? (
+      <>
+        <button className="submit-post" onClick={postStoryHandler}>
+          post
+        </button>
+      </>
+    ) : (
+      <>
+        <button
+          className="submit-post"
+          style={{ visibility: "hidden" }}
+          onClick={postStoryHandler}
+        >
+          post
+        </button>
+      </>
+    );
+
   if (props.type === "newPost") {
     deletePostButton = (
-      <button className="delete-post"
-      style={{ visibility: "hidden" }} 
-      onClick={deletePostHandler}>
+      <button
+        className="delete-post"
+        style={{ visibility: "hidden" }}
+        onClick={deletePostHandler}
+      >
         delete
       </button>
     );
-    checkBoxButton= <>
-    <label>Keep private &nbsp;</label>
-    <input
-      type="checkbox"
-      checked={story["privacy"]}
-      onChange={(e) => checkboxHandler(e)}
-    />
-  </>
-  postButton=<button
-  className="submit-post"
-  onClick={postStoryHandler}
->
-  post
-</button>
+    checkBoxButton = (
+      <>
+        <label>Keep private &nbsp;</label>
+        <input
+          type="checkbox"
+          checked={story["privacy"]}
+          onChange={(e) => checkboxHandler(e)}
+        />
+      </>
+    );
+    postButton = (
+      <button className="submit-post" onClick={postStoryHandler}>
+        post
+      </button>
+    );
   }
   // console.log(props.card)
   return (
@@ -170,11 +174,11 @@ function StoryModal(props) {
                     value={story["title"]}
                     onChange={(e) => inputChangeHandler(e, "title")}
                   ></input>
-                  <Textarea 
+                  <Textarea
                     className="modal-body"
                     placeholder="text"
                     value={story["body"]}
-                    minRows={5} 
+                    minRows={5}
                     maxRows={25}
                     onChange={(e) => inputChangeHandler(e, "body")}
                   ></Textarea>

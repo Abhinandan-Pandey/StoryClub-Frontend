@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axios";
 
 import * as actionTypes from "./actionTypes";
 
@@ -46,57 +46,35 @@ export const auth = ({ email, password, isSignup, fullName }) => {
   return (dispatch) => {
     dispatch(authStart());
     const authData = {
-      displayName: fullName,
       email: email,
       password: password,
-      returnSecureToken: true,
+      userName: fullName,
+      coverQuote: "cannot praise yourself ...",
+      bio: "Works at XYZ Company",
+      location: "XYZ Location",
     };
-    const urlUserData = "https://storyclub-734f8.firebaseio.com/users.json";
 
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBzOU2zSdEfJJ2fBMR3piZK9jH_q6g9nPQ";
+    let url = "users/signup";
     if (!isSignup) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBzOU2zSdEfJJ2fBMR3piZK9jH_q6g9nPQ";
+      url = "users/login";
     }
     axios
       .post(url, authData)
       .then((response) => {
-        const expirationDate = new Date(
-          new Date().getTime() + response.data.expiresIn * 1000
-        );
-        localStorage.setItem("token", response.data.idToken);
+        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+        localStorage.setItem("token", response.data.token);
         localStorage.setItem("expirationDate", expirationDate);
-        localStorage.setItem("userId", response.data.localId);
-        localStorage.setItem("userName", response.data.displayName);
-        dispatch(authSuccess(response.data.idToken, response.data.localId));
-        dispatch(checkAuthTimeout(response.data.expiresIn));
-        // console.log(response.data)
-        if (isSignup) {
-          const userData = {
-            fullName: fullName,
-            coverQuote: "cannot praise yourself ...",
-            bio: "Works at XYZ Company",
-            location: "Enter Your Location",
-            userId: response.data.localId,
-          };
-          axios
-            .post(urlUserData + "?auth=" + response.data.idToken, userData)
-            .then((response) => {
-              // console.log(response.data, "data saved Successfully", userData);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
+        localStorage.setItem("userId", response.data._id);
+        localStorage.setItem("userName", response.data.userName);
+        dispatch(authSuccess(response.data.token, response.data._id));
+        dispatch(checkAuthTimeout(3600));
       })
       .catch((err) => {
-        if(!!err.response){
-        dispatch(authFail(err.response.data.error.message));
-        }else{
-        dispatch(authFail(err.message));
+        if (!!err.response) {
+          dispatch(authFail(err.response.data.message));
+        } else {
+          dispatch(authFail(err.message));
         }
-        // console.log(!!err.response,err.response.data.error)        
       });
   };
 };
